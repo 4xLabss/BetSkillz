@@ -20,6 +20,7 @@ import {
 import { useWallet } from '@solana/wallet-adapter-react';
 import gamesData from '@/data/games.json';
 import { Game } from '@/types/game';
+import WalletManager from '@/components/WalletManager';
 
 // Mock data for demonstration - Snake focused
 const mockLeaderboard = [
@@ -230,55 +231,7 @@ export default function HomePage() {
           <div className="lg:col-span-1 space-y-6">
             
             {/* Wallet */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="wallet-card"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-2">
-                  <WalletIcon className="h-5 w-5 text-blue-400" />
-                  <h2 className="text-lg font-bold text-white">Wallet</h2>
-                </div>
-                <button className="text-gray-400 hover:text-blue-400 transition-colors">
-                  <Settings className="h-4 w-4" />
-                </button>
-              </div>
-
-              {connected ? (
-                <div className="space-y-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-white">${balance.usd.toFixed(2)}</div>
-                    <div className="text-gray-400 text-sm">{balance.sol.toFixed(4)} SOL</div>
-                  </div>
-                  
-                  <div className="flex space-x-2">
-                    <button className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">
-                      Add Funds
-                    </button>
-                    <button className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">
-                      Withdraw
-                    </button>
-                  </div>
-                  
-                  <button className="w-full text-gray-400 hover:text-blue-400 text-sm transition-colors">
-                    Copy Address
-                  </button>
-                  
-                  <button className="w-full flex items-center justify-center space-x-2 text-gray-400 hover:text-blue-400 text-sm transition-colors">
-                    <RefreshCwIcon className="h-4 w-4" />
-                    <span>Refresh Balance</span>
-                  </button>
-                </div>
-              ) : (
-                <div className="text-center py-6">
-                  <div className="text-gray-400 mb-4">Connect wallet to start playing</div>
-                  <div className="text-2xl font-bold text-white">$0.00</div>
-                  <div className="text-gray-400 text-sm">0.0000 SOL</div>
-                </div>
-              )}
-            </motion.div>
+            <WalletManager />
 
             {/* How to Play */}
             <motion.div 
