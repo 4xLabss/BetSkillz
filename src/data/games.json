@@ -1,0 +1,58 @@
+[
+  {
+    "id": "snake-classic",
+    "title": "Snake Classic",
+    "description": "The classic Snake game where you grow by eating food while avoiding walls and yourself. Compete for the highest score!",
+    "thumbnail": "🐍",
+    "category": "Arcade",
+    "difficulty": "Medium",
+    "maxPlayers": 1,
+    "averageGameTime": "5-15 min",
+    "tags": ["classic", "arcade", "skill", "high-score"],
+    "isActive": true,
+    "betAmounts": [1, 5, 10, 20, 50],
+    "stats": {
+      "totalPlayers": 2847,
+      "dailyPlayers": 156,
+      "averageScore": 850,
+      "highestScore": 12450,
+      "totalGamesPlayed": 8932,
+      "averageGameLength": "8:32"
+    },
+    "controls": {
+      "Arrow Keys": "Move snake up, down, left, right",
+      "WASD": "Alternative movement controls",
+      "Space": "Pause game",
+      "R": "Restart (when game over)"
+    },
+    "rules": [
+      "Eat food to grow your snake and increase your score",
+      "Avoid hitting walls or your own tail",
+      "Each food item increases your score by 10 points",
+      "Game speed increases as you grow longer",
+      "Final score determines your rank and winnings"
+    ],
+    "powerUps": [
+      {
+        "name": "Speed Boost",
+        "description": "Temporarily increase snake speed",
+        "icon": "⚡",
+        "rarity": "common"
+      },
+      {
+        "name": "Score Multiplier",
+        "description": "Double points for next 3 food items",
+        "icon": "✨",
+        "rarity": "rare"
+      },
+      {
+        "name": "Phase Through",
+        "description": "Pass through walls once",
+        "icon": "👻",
+        "rarity": "epic"
+      }
+    ],
+    "gameUrl": "/play/snake",
+    "status": "available"
+  }
+]
