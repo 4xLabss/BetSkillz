@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useWallet as useSolanaWallet } from '@solana/wallet-adapter-react';
+import usersData from '@/data/users.json';
 
 // Real wallet interface using Solana wallet adapter
 interface RealWallet {
@@ -90,11 +91,46 @@ function WalletProviderInner({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (wallet.connected && wallet.publicKey) {
-      // Load user data when wallet connects
-      import('@/data/users.json').then(userData => {
-        const currentUser = userData.default.find(u => u.id === 'current-user');
-        setUser(currentUser || null);
-      });
+      // Load user data when wallet connects - simplified for now
+      try {
+        const currentUser = usersData.find((u: any) => u.id === 'current-user');
+        if (currentUser) {
+          // Create a user object that matches our interface
+          const adaptedUser: User = {
+            id: currentUser.id,
+            username: currentUser.username,
+            walletAddress: wallet.publicKey,
+            avatar: currentUser.avatar,
+            level: currentUser.level,
+            experience: currentUser.experience,
+            joinDate: currentUser.joinDate,
+            lastActive: currentUser.lastActive || new Date().toISOString(),
+            isOnline: true,
+            stats: {
+              totalGamesPlayed: currentUser.gamesPlayed,
+              totalScore: currentUser.highestScore,
+              favoriteGame: currentUser.favoriteGame,
+              winRate: currentUser.winRate,
+              averageGameTime: currentUser.stats?.averageGameTime || "5:00"
+            },
+            achievements: (currentUser.achievements || []).map((ach: any) => ({
+              ...ach,
+              rarity: ach.rarity || 'common'
+            })),
+            socialLinks: {},
+            preferences: {
+              theme: currentUser.preferences?.theme || "dark",
+              notifications: true,
+              soundEffects: currentUser.preferences?.soundEnabled || true,
+              musicVolume: currentUser.preferences?.musicEnabled ? 0.5 : 0
+            }
+          };
+          setUser(adaptedUser);
+        }
+      } catch (error) {
+        console.error('Error loading user data:', error);
+        setUser(null);
+      }
     } else {
       setUser(null);
     }

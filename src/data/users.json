@@ -1,0 +1,68 @@
+[
+  {
+    "id": "current-user",
+    "username": "SnakeMaster",
+    "walletAddress": "",
+    "level": 15,
+    "experience": 7250,
+    "totalEarnings": 1234.56,
+    "gamesPlayed": 89,
+    "wins": 62,
+    "losses": 27,
+    "winRate": 69.7,
+    "currentStreak": 5,
+    "bestStreak": 12,
+    "averageScore": 1250,
+    "highestScore": 8750,
+    "rank": 42,
+    "avatar": "🐍",
+    "joinDate": "2024-02-15T10:30:00Z",
+    "lastActive": "2024-08-21T14:20:00Z",
+    "favoriteGame": "snake-classic",
+    "achievements": [
+      {
+        "id": "first-win",
+        "name": "First Victory",
+        "description": "Win your first Snake game",
+        "icon": "🏆",
+        "unlockedAt": "2024-02-15T15:45:00Z"
+      },
+      {
+        "id": "high-scorer",
+        "name": "High Scorer",
+        "description": "Score over 5000 points in a single game",
+        "icon": "⭐",
+        "unlockedAt": "2024-03-02T11:20:00Z"
+      },
+      {
+        "id": "streak-master",
+        "name": "Streak Master",
+        "description": "Win 10 games in a row",
+        "icon": "🔥",
+        "unlockedAt": "2024-04-18T16:30:00Z"
+      },
+      {
+        "id": "snake-veteran",
+        "name": "Snake Veteran",
+        "description": "Play 50 Snake games",
+        "icon": "🎮",
+        "unlockedAt": "2024-05-10T09:15:00Z"
+      }
+    ],
+    "stats": {
+      "totalPlayTime": "12h 34m",
+      "averageGameTime": "8m 25s",
+      "longestGame": "23m 15s",
+      "foodEaten": 2847,
+      "wallHits": 156,
+      "selfCollisions": 89
+    },
+    "preferences": {
+      "theme": "dark",
+      "soundEnabled": true,
+      "musicEnabled": false,
+      "difficulty": "medium",
+      "controlScheme": "arrows"
+    }
+  }
+]

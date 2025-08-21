@@ -1,379 +1,359 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { PlayIcon, TrophyIcon, UsersIcon, StarIcon, ArrowRightIcon } from 'lucide-react';
-import { useWallet } from '@/components/WalletProvider';
+import { 
+  TrophyIcon, 
+  UsersIcon, 
+  WalletIcon,
+  RefreshCwIcon,
+  PlayIcon,
+  UserPlusIcon,
+  Settings,
+  DiscIcon,
+  GamepadIcon,
+  StarIcon,
+  ClockIcon,
+  TargetIcon
+} from 'lucide-react';
+import { useWallet } from '@solana/wallet-adapter-react';
 import gamesData from '@/data/games.json';
+import { Game } from '@/types/game';
 
-interface Game {
-  id: string;
-  title: string;
-  description: string;
-  thumbnail: string;
-  category: string;
-  difficulty: string;
-  maxPlayers: number;
-  averageGameTime: string;
-  tags: string[];
-  stats: {
-    totalPlayers: number;
-    dailyPlayers: number;
-  };
-  gameUrl: string;
-}
+// Mock data for demonstration - Snake focused
+const mockLeaderboard = [
+  { rank: 1, username: 'SnakeKing', earnings: '$2,450.75', score: 12450, avatar: '👑' },
+  { rank: 2, username: 'CobraStrike', earnings: '$1,875.22', score: 9280, avatar: '�' },
+  { rank: 3, username: 'VenomBite', earnings: '$1,234.56', score: 8750, avatar: '🔥' },
+  { rank: 4, username: 'SlitherPro', earnings: '$987.34', score: 7600, avatar: '⚡' },
+  { rank: 5, username: 'ApexPython', earnings: '$756.89', score: 6890, avatar: '🎯' },
+];
+
+const mockStats = {
+  playersInGame: 23,
+  globalWinnings: '$87,450',
+  totalGames: 1247,
+  averageScore: 850
+};
+
+const betAmounts = ['$1', '$5', '$10', '$20'];
 
 export default function HomePage() {
-  const { wallet } = useWallet();
-  const [games, setGames] = useState<Game[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { connected, publicKey } = useWallet();
+  const [selectedBet, setSelectedBet] = useState('$5');
+  const [balance, setBalance] = useState({ usd: 0, sol: 0 });
+  const [onlineCount, setOnlineCount] = useState(89);
+  const [snakeGame, setSnakeGame] = useState<Game | null>(null);
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        setGames(gamesData);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error loading data:', error);
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, []);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
+    // Load Snake game data
+    const games = gamesData as Game[];
+    const game = games.find((g: Game) => g.id === 'snake-classic');
+    setSnakeGame(game || null);
+    
+    // Simulate balance updates
+    if (connected) {
+      setBalance({ usd: 245.78, sol: 0.38 });
+    } else {
+      setBalance({ usd: 0, sol: 0 });
     }
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.5
-      }
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading BetSkillz...</p>
-        </div>
-      </div>
-    );
-  }
+  }, [connected]);
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 opacity-10">
-        <motion.div
-          className="absolute top-20 left-20 w-40 h-40 bg-gray-200 rounded-full blur-3xl"
-          animate={{
-            x: [0, 100, -50, 0],
-            y: [0, -50, 100, 0],
-            scale: [1, 1.2, 0.8, 1],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute top-1/3 right-20 w-60 h-60 bg-gray-300 rounded-full blur-3xl"
-          animate={{
-            x: [0, -80, 60, 0],
-            y: [0, 80, -40, 0],
-            scale: [1, 0.8, 1.3, 1],
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.div
-          className="absolute bottom-20 left-1/3 w-32 h-32 bg-gray-100 rounded-full blur-3xl"
-          animate={{
-            x: [0, 120, -80, 0],
-            y: [0, -60, 40, 0],
-            scale: [1, 1.4, 0.9, 1],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-        />
-      </div>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="text-center"
-          >
-            <motion.h1
-              variants={itemVariants}
-              className="text-5xl md:text-7xl font-bold mb-6"
+    <div className="min-h-screen bg-gradient-to-br from-[#0f0f23] via-[#1a1a2e] to-[#16213e]">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          
+          {/* Left Sidebar - Leaderboard */}
+          <div className="lg:col-span-1 space-y-6">
+            
+            {/* Leaderboard */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="glass-effect rounded-2xl p-6"
             >
-              <span className="text-black">
-                Welcome to BetSkillz
-              </span>
-            </motion.h1>
-            <motion.p
-              variants={itemVariants}
-              className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto"
-            >
-              The ultimate Web3 gaming hub where skill meets blockchain. 
-              Play addictive browser games, climb leaderboards, and earn rewards.
-            </motion.p>
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-col sm:flex-row gap-4 justify-center"
-            >
-              {wallet.connected ? (
-                <Link
-                  href="/games"
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
-                >
-                  <PlayIcon className="h-5 w-5" />
-                  <span>Start Playing</span>
-                </Link>
-              ) : (
-                <button
-                  onClick={wallet.connect}
-                  disabled={wallet.connecting}
-                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 disabled:opacity-50"
-                >
-                  {wallet.connecting ? 'Connecting...' : 'Connect Wallet to Play'}
-                </button>
-              )}
-              <Link
-                href="/leaderboard"
-                className="border-2 border-blue-500 text-blue-600 hover:bg-blue-500 hover:text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-300 flex items-center space-x-2"
+              <div className="flex items-center space-x-2 mb-4">
+                <TrophyIcon className="h-5 w-5 text-yellow-400" />
+                <h2 className="text-lg font-bold text-white">Snake Leaderboard</h2>
+                <span className="text-blue-400 text-sm">Live</span>
+              </div>
+              
+              <div className="space-y-3">
+                {mockLeaderboard.map((player) => (
+                  <div key={player.rank} className="leaderboard-item">
+                    <div className="flex items-center space-x-3">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold text-sm">
+                        {player.rank}
+                      </div>
+                      <div>
+                        <div className="text-white font-medium text-sm">{player.username}</div>
+                        <div className="text-green-400 font-bold text-sm">{player.earnings}</div>
+                        <div className="text-gray-400 text-xs">Score: {player.score.toLocaleString()}</div>
+                      </div>
+                    </div>
+                    <div className="text-2xl">{player.avatar}</div>
+                  </div>
+                ))}
+              </div>
+              
+              <Link 
+                href="/leaderboard" 
+                className="block mt-4 text-center text-blue-400 hover:text-blue-300 text-sm font-medium transition-colors"
               >
-                <TrophyIcon className="h-5 w-5" />
-                <span>View Leaderboard</span>
+                View Full Leaderboard
               </Link>
             </motion.div>
-          </motion.div>
-        </div>
 
-        {/* Background decorations */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-20 w-20 h-20 bg-blue-500/20 rounded-full blur-xl"></div>
-          <div className="absolute top-40 right-32 w-32 h-32 bg-indigo-500/20 rounded-full blur-xl"></div>
-          <div className="absolute bottom-20 left-1/4 w-24 h-24 bg-cyan-500/20 rounded-full blur-xl"></div>
-        </div>
-      </section>
-
-      {/* Featured Games Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={containerVariants}
-          >
-            <motion.h2
-              variants={itemVariants}
-              className="text-4xl font-bold text-center mb-12"
+            {/* Friends */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="glass-effect rounded-2xl p-6"
             >
-              Featured Games
-            </motion.h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {games.map((game) => (
-                  <motion.div
-                    key={game.id}
-                    variants={itemVariants}
-                    className="game-card bg-gradient-to-br from-white/80 to-gray-50/80 backdrop-blur-lg rounded-xl overflow-hidden border border-gray-200/50 shadow-xl group perspective-1000"
-                  >
-                    <div className="relative overflow-hidden">
-                      <motion.img
-                        src={`https://picsum.photos/400/240?random=${game.id}&blur=1`}
-                        alt={game.title}
-                        className="w-full h-48 object-cover group-hover:scale-110 transition-all duration-500"
-                        style={{
-                          filter: 'brightness(0.8) contrast(1.2)',
-                        }}
-                        whileHover={{ scale: 1.1, rotateY: 5 }}
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                      
-                      {/* Animated overlay */}
-                      <motion.div
-                        className="absolute inset-0 bg-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        animate={{
-                          background: [
-                            'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 50%)',
-                            'radial-gradient(circle at 80% 50%, rgba(99, 102, 241, 0.2) 0%, transparent 50%)',
-                            'radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 50%)',
-                          ]
-                        }}
-                        transition={{ duration: 2, repeat: Infinity }}
-                      />
-                      
-                      <div className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-sm font-medium text-gray-700">
-                        {game.category}
-                      </div>
-                      
-                      {/* Enhanced play overlay */}
-                      <motion.div
-                        className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300"
-                        initial={{ scale: 0, rotate: 0 }}
-                        whileHover={{ scale: 1, rotate: 360 }}
-                        transition={{ duration: 0.5 }}
-                      >
-                        <motion.div
-                          className="bg-blue-500/30 backdrop-blur-md rounded-full p-4 border border-blue-400/50 energy-pulse"
-                          whileHover={{ scale: 1.2 }}
-                        >
-                          <PlayIcon className="h-8 w-8 text-blue-600" fill="currentColor" />
-                        </motion.div>
-                      </motion.div>
-                    </div>
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold mb-2 text-gray-900">{game.title}</h3>
-                    <p className="text-gray-600 mb-4 text-sm line-clamp-2">{game.description}</p>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
-                        <div className="flex items-center space-x-1">
-                          <UsersIcon className="h-4 w-4" />
-                          <span>{game.stats.dailyPlayers} online</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <StarIcon className="h-4 w-4" />
-                          <span>{game.difficulty}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <motion.div
-                      whileHover={{ scale: 1.05, rotateX: 5 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-full"
-                    >
-                      <Link
-                        href={game.gameUrl}
-                        className="w-full bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600 hover:from-blue-700 hover:via-blue-800 hover:to-indigo-700 text-white py-3 px-4 rounded-xl font-bold transition-all duration-300 flex items-center justify-center space-x-2 group relative overflow-hidden shadow-lg hover:shadow-blue-500/25 btn-3d"
-                      >
-                        <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          animate={{
-                            x: [-100, 100],
-                          }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            ease: "linear"
-                          }}
-                        />
-                        <motion.div
-                          animate={{ rotate: [0, 360] }}
-                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                          className="relative z-10"
-                        >
-                          <PlayIcon className="h-5 w-5" fill="currentColor" />
-                        </motion.div>
-                        <span className="relative z-10 font-bold">PLAY NOW</span>
-                        <motion.div
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{ duration: 1, repeat: Infinity }}
-                          className="relative z-10"
-                        >
-                          <ArrowRightIcon className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
-                        </motion.div>
-                      </Link>
-                    </motion.div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <UsersIcon className="h-5 w-5 text-blue-400" />
+                  <h2 className="text-lg font-bold text-white">Friends</h2>
+                </div>
+                <RefreshCwIcon className="h-4 w-4 text-gray-400 cursor-pointer hover:text-blue-400 transition-colors" />
+              </div>
+              
+              <div className="text-center py-8">
+                <div className="text-gray-400 mb-4">0 playing Snake</div>
+                <div className="text-gray-500 text-sm mb-4">No friends... add some!</div>
+                <button className="casino-button w-full">
+                  <UserPlusIcon className="h-4 w-4 mr-2" />
+                  Add Friends
+                </button>
+              </div>
+            </motion.div>
+          </div>
 
-      {/* Stats Section */}
-      <section className="py-20 px-4 bg-blue-50/50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center"
-          >
-            <motion.div variants={itemVariants} className="game-card bg-gradient-to-br from-white/80 to-blue-50/60 backdrop-blur-sm rounded-xl p-6 border border-blue-200 hover:border-blue-400 transition-all duration-300 group">
-              <motion.div 
-                className="text-4xl font-bold text-blue-600 mb-2"
-                animate={{ 
-                  textShadow: [
-                    '0 0 5px rgba(59, 130, 246, 0.3)',
-                    '0 0 10px rgba(59, 130, 246, 0.5)',
-                    '0 0 5px rgba(59, 130, 246, 0.3)',
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                {games.reduce((total, game) => total + game.stats.totalPlayers, 0).toLocaleString()}
-              </motion.div>
-              <div className="text-gray-600 font-medium">Total Players</div>
+          {/* Main Game Area - Snake Game */}
+          <div className="lg:col-span-2 space-y-6">
+            
+            {/* Snake Game Lobby */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="game-lobby-card"
+            >
+              <div className="text-center mb-8">
+                <div className="text-8xl mb-4">🐍</div>
+                <h1 className="text-4xl font-bold gradient-text mb-2">SNAKE CLASSIC</h1>
+                <p className="text-gray-300">Skill-Based Snake Gaming • Earn While You Play</p>
+              </div>
+
+              {/* Game Info */}
+              {snakeGame && (
+                <div className="mb-8">
+                  <p className="text-gray-300 text-center mb-6">{snakeGame.description}</p>
+                  
+                  {/* Game Stats */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div className="glass-effect rounded-xl p-3 text-center">
+                      <UsersIcon className="h-5 w-5 text-blue-400 mx-auto mb-1" />
+                      <div className="text-white font-bold">{snakeGame.stats.dailyPlayers}</div>
+                      <div className="text-gray-400 text-xs">Today</div>
+                    </div>
+                    <div className="glass-effect rounded-xl p-3 text-center">
+                      <TargetIcon className="h-5 w-5 text-purple-400 mx-auto mb-1" />
+                      <div className="text-white font-bold">{snakeGame.stats.averageScore.toLocaleString()}</div>
+                      <div className="text-gray-400 text-xs">Avg Score</div>
+                    </div>
+                    <div className="glass-effect rounded-xl p-3 text-center">
+                      <StarIcon className="h-5 w-5 text-yellow-400 mx-auto mb-1" />
+                      <div className="text-white font-bold">{snakeGame.stats.highestScore.toLocaleString()}</div>
+                      <div className="text-gray-400 text-xs">High Score</div>
+                    </div>
+                    <div className="glass-effect rounded-xl p-3 text-center">
+                      <ClockIcon className="h-5 w-5 text-green-400 mx-auto mb-1" />
+                      <div className="text-white font-bold">{snakeGame.averageGameTime}</div>
+                      <div className="text-gray-400 text-xs">Avg Time</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Bet Amount Selection */}
+              <div className="mb-8">
+                <h3 className="text-white font-bold text-center mb-4">Choose Your Bet</h3>
+                <div className="flex justify-center space-x-4">
+                  {betAmounts.map((amount) => (
+                    <button
+                      key={amount}
+                      onClick={() => setSelectedBet(amount)}
+                      className={`bet-button ${selectedBet === amount ? 'active' : ''}`}
+                    >
+                      {amount}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Join Game Button */}
+              <div className="text-center mb-8">
+                {snakeGame?.status === 'coming-soon' ? (
+                  <button 
+                    disabled
+                    className="px-12 py-4 bg-gray-600/50 text-gray-400 rounded-lg font-bold text-xl cursor-not-allowed"
+                  >
+                    Coming Soon
+                  </button>
+                ) : (
+                  <button className="casino-button text-xl px-12 py-4 neon-glow">
+                    <PlayIcon className="h-6 w-6 mr-3" />
+                    START SNAKE GAME
+                  </button>
+                )}
+              </div>
+
+              {/* Global Stats */}
+              <div className="grid grid-cols-2 gap-6 text-center">
+                <div className="glass-effect rounded-xl p-4">
+                  <div className="text-2xl font-bold text-blue-400">{mockStats.playersInGame}</div>
+                  <div className="text-gray-400 text-sm">Players Online</div>
+                </div>
+                <div className="glass-effect rounded-xl p-4">
+                  <div className="text-2xl font-bold text-green-400">{mockStats.globalWinnings}</div>
+                  <div className="text-gray-400 text-sm">Total Winnings</div>
+                </div>
+              </div>
             </motion.div>
-            <motion.div variants={itemVariants} className="game-card bg-gradient-to-br from-white/80 to-indigo-50/60 backdrop-blur-sm rounded-xl p-6 border border-indigo-200 hover:border-indigo-400 transition-all duration-300 group">
-              <motion.div 
-                className="text-4xl font-bold text-indigo-600 mb-2"
-                animate={{ 
-                  textShadow: [
-                    '0 0 5px rgba(99, 102, 241, 0.3)',
-                    '0 0 10px rgba(99, 102, 241, 0.5)',
-                    '0 0 5px rgba(99, 102, 241, 0.3)',
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-              >
-                {games.reduce((total, game) => total + game.stats.dailyPlayers, 0).toLocaleString()}
-              </motion.div>
-              <div className="text-gray-600 font-medium">Daily Active</div>
+          </div>
+
+          {/* Right Sidebar */}
+          <div className="lg:col-span-1 space-y-6">
+            
+            {/* Wallet */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="wallet-card"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <WalletIcon className="h-5 w-5 text-blue-400" />
+                  <h2 className="text-lg font-bold text-white">Wallet</h2>
+                </div>
+                <button className="text-gray-400 hover:text-blue-400 transition-colors">
+                  <Settings className="h-4 w-4" />
+                </button>
+              </div>
+
+              {connected ? (
+                <div className="space-y-4">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-white">${balance.usd.toFixed(2)}</div>
+                    <div className="text-gray-400 text-sm">{balance.sol.toFixed(4)} SOL</div>
+                  </div>
+                  
+                  <div className="flex space-x-2">
+                    <button className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">
+                      Add Funds
+                    </button>
+                    <button className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">
+                      Withdraw
+                    </button>
+                  </div>
+                  
+                  <button className="w-full text-gray-400 hover:text-blue-400 text-sm transition-colors">
+                    Copy Address
+                  </button>
+                  
+                  <button className="w-full flex items-center justify-center space-x-2 text-gray-400 hover:text-blue-400 text-sm transition-colors">
+                    <RefreshCwIcon className="h-4 w-4" />
+                    <span>Refresh Balance</span>
+                  </button>
+                </div>
+              ) : (
+                <div className="text-center py-6">
+                  <div className="text-gray-400 mb-4">Connect wallet to start playing</div>
+                  <div className="text-2xl font-bold text-white">$0.00</div>
+                  <div className="text-gray-400 text-sm">0.0000 SOL</div>
+                </div>
+              )}
             </motion.div>
-            <motion.div variants={itemVariants} className="game-card bg-gradient-to-br from-white/80 to-emerald-50/60 backdrop-blur-sm rounded-xl p-6 border border-emerald-200 hover:border-emerald-400 transition-all duration-300 group">
-              <motion.div 
-                className="text-4xl font-bold text-emerald-600 mb-2"
-                animate={{ 
-                  textShadow: [
-                    '0 0 5px rgba(16, 185, 129, 0.3)',
-                    '0 0 10px rgba(16, 185, 129, 0.5)',
-                    '0 0 5px rgba(16, 185, 129, 0.3)',
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity, delay: 1 }}
-              >
-                {games.length}
-              </motion.div>
-              <div className="text-gray-600 font-medium">Games Available</div>
+
+            {/* How to Play */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="glass-effect rounded-2xl p-6"
+            >
+              <div className="flex items-center space-x-2 mb-4">
+                <GamepadIcon className="h-5 w-5 text-purple-400" />
+                <h2 className="text-lg font-bold text-white">How to Play</h2>
+              </div>
+              
+              <div className="space-y-3 text-sm text-gray-300">
+                <div className="flex items-start space-x-2">
+                  <span className="text-blue-400">1.</span>
+                  <span>Connect your wallet and choose bet amount</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <span className="text-blue-400">2.</span>
+                  <span>Use arrow keys to control your snake</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <span className="text-blue-400">3.</span>
+                  <span>Eat food to grow and increase score</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <span className="text-blue-400">4.</span>
+                  <span>Avoid walls and your own tail</span>
+                </div>
+                <div className="flex items-start space-x-2">
+                  <span className="text-blue-400">5.</span>
+                  <span>Higher scores = bigger winnings!</span>
+                </div>
+              </div>
             </motion.div>
-            <motion.div variants={itemVariants} className="game-card bg-gradient-to-br from-white/80 to-amber-50/60 backdrop-blur-sm rounded-xl p-6 border border-amber-200 hover:border-amber-400 transition-all duration-300 group">
-              <motion.div 
-                className="text-4xl font-bold text-amber-600 mb-2"
-                animate={{ 
-                  textShadow: [
-                    '0 0 5px rgba(245, 158, 11, 0.3)',
-                    '0 0 10px rgba(245, 158, 11, 0.5)',
-                    '0 0 5px rgba(245, 158, 11, 0.3)',
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
-              >
-                24/7
-              </motion.div>
-              <div className="text-gray-600 font-medium">Always Online</div>
+
+            {/* Discord */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="glass-effect rounded-2xl p-6"
+            >
+              <div className="text-center">
+                <DiscIcon className="h-8 w-8 text-indigo-400 mx-auto mb-3" />
+                <h3 className="text-white font-bold mb-2">Join Discord!</h3>
+                <p className="text-gray-400 text-sm mb-4">Connect with Snake players</p>
+                <a 
+                  href="https://discord.gg/betskillz" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="casino-button w-full block text-center"
+                >
+                  Join Now
+                </a>
+              </div>
             </motion.div>
-          </motion.div>
+
+            {/* Online Status */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="glass-effect rounded-2xl p-4 text-center"
+            >
+              <div className="flex items-center justify-center space-x-2">
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-white font-medium">{onlineCount} players online</span>
+              </div>
+            </motion.div>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
+
