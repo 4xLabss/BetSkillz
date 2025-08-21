@@ -1,21 +1,22 @@
-# BetSkillz - Decentralized Gaming Platform
+# BetSkillz - Skill-Based Snake Gaming Platform
 
 ![BetSkillz Banner](https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1200&h=400&fit=crop&crop=gaming)
 
-BetSkillz is a cutting-edge decentralized gaming platform built on Solana that combines the excitement of multiplayer gaming with blockchain technology. Experience real-time competitive gaming, earn rewards, and connect with a global community of gamers.
+BetSkillz is a modern skill-based gaming platform that combines the classic Snake game with cryptocurrency betting on the Solana blockchain. Experience competitive Snake gaming, earn real rewards, and climb the global leaderboards.
 
-## 🎮 Features
+## 🐍 Features
 
 ### 🎯 Core Gameplay
-- **Real-time Multiplayer Games**: Engage in competitive arcade-style games with players worldwide
-- **Cosmic Drift**: Snake-like space navigation game with energy collection mechanics
-- **Leaderboards**: Global rankings and competitive scoring systems
+- **Snake Classic**: Skill-based Snake game with betting mechanics
+- **Real-time Leaderboards**: Live global rankings and competitive scoring
+- **Coming Soon**: Multiplayer Snake battles and tournaments
 - **User Profiles**: Comprehensive player statistics and achievement tracking
 
-### 🚀 Blockchain Integration
-- **Solana Wallet Integration**: Seamless wallet connectivity and management
-- **Decentralized Architecture**: Built on Solana for fast, low-cost transactions
-- **User Authentication**: Secure blockchain-based user authentication
+### � Blockchain Integration
+- **Solana Wallet Integration**: Connect Phantom, Solflare, and other Solana wallets
+- **Gaming Wallet**: Separate balance management for secure betting
+- **Deposit/Withdraw**: Easy fund management with SOL/USD conversion
+- **Real Rewards**: Earn cryptocurrency based on skill and performance
 
 ### 🌟 Community Features
 - **Gaming News**: Stay updated with the latest gaming and blockchain news

@@ -22,7 +22,7 @@ interface WalletManagerProps {
 
 export default function WalletManager({ className = '' }: WalletManagerProps) {
   const { connection } = useConnection();
-  const { publicKey, connected, disconnect, wallet } = useWallet();
+  const { publicKey, connected } = useWallet();
   const [balance, setBalance] = useState({ sol: 0, usd: 0 });
   const [gameBalance, setGameBalance] = useState({ usd: 0 });
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +43,7 @@ export default function WalletManager({ className = '' }: WalletManagerProps) {
       setBalance({ sol: 0, usd: 0 });
       setGameBalance({ usd: 0 });
     }
-  }, [connected, publicKey, connection]);
+  }, [connected, publicKey, connection]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const getBalance = async () => {
     if (!publicKey || !connection) return;
@@ -93,7 +93,7 @@ export default function WalletManager({ className = '' }: WalletManagerProps) {
     try {
       await navigator.clipboard.writeText(publicKey.toBase58());
       showNotification('success', 'Wallet address copied to clipboard');
-    } catch (error) {
+    } catch {
       showNotification('error', 'Failed to copy address');
     }
   };
@@ -117,7 +117,7 @@ export default function WalletManager({ className = '' }: WalletManagerProps) {
       setDepositAmount('');
       setShowDepositForm(false);
       showNotification('success', `Successfully deposited $${amount.toFixed(2)} to gaming wallet`);
-    } catch (error) {
+    } catch {
       showNotification('error', 'Deposit failed');
     } finally {
       setIsLoading(false);
@@ -143,7 +143,7 @@ export default function WalletManager({ className = '' }: WalletManagerProps) {
       setWithdrawAmount('');
       setShowWithdrawForm(false);
       showNotification('success', `Successfully withdrew $${amount.toFixed(2)} to Solana wallet`);
-    } catch (error) {
+    } catch {
       showNotification('error', 'Withdrawal failed');
     } finally {
       setIsLoading(false);

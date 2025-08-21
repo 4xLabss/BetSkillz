@@ -6,11 +6,9 @@ import { motion } from 'framer-motion';
 import { 
   TrophyIcon, 
   UsersIcon, 
-  WalletIcon,
   RefreshCwIcon,
   PlayIcon,
   UserPlusIcon,
-  Settings,
   DiscIcon,
   GamepadIcon,
   StarIcon,
@@ -41,10 +39,9 @@ const mockStats = {
 const betAmounts = ['$1', '$5', '$10', '$20'];
 
 export default function HomePage() {
-  const { connected, publicKey } = useWallet();
+  const { connected } = useWallet();
   const [selectedBet, setSelectedBet] = useState('$5');
-  const [balance, setBalance] = useState({ usd: 0, sol: 0 });
-  const [onlineCount, setOnlineCount] = useState(89);
+  const [onlineCount] = useState(89);
   const [snakeGame, setSnakeGame] = useState<Game | null>(null);
 
   useEffect(() => {
@@ -52,13 +49,6 @@ export default function HomePage() {
     const games = gamesData as Game[];
     const game = games.find((g: Game) => g.id === 'snake-classic');
     setSnakeGame(game || null);
-    
-    // Simulate balance updates
-    if (connected) {
-      setBalance({ usd: 245.78, sol: 0.38 });
-    } else {
-      setBalance({ usd: 0, sol: 0 });
-    }
   }, [connected]);
 
   return (

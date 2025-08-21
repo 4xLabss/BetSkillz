@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { TwitterIcon, MessageCircleIcon, GithubIcon, DiscIcon } from 'lucide-react';
+import Image from 'next/image';
+import { TwitterIcon, GithubIcon, DiscIcon } from 'lucide-react';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -15,15 +16,12 @@ export function Footer() {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-2">
             <Link href="/" className="flex items-center mb-4">
-              <img
+              <Image
                 src="/image.png"
                 alt="BetSkillz Logo"
                 height={60}
                 width={160}
                 className="h-10 w-auto"
-                onError={(e) => {
-                  e.currentTarget.src = '/api/placeholder/32/32';
-                }}
               />
             </Link>
             <p className="text-gray-300 text-sm mb-4 max-w-md">

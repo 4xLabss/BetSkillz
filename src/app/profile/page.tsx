@@ -4,19 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { 
   UserIcon, 
-  TrophyIcon, 
-  StarIcon, 
   GamepadIcon, 
-  ClockIcon, 
   TargetIcon,
   EditIcon,
-  ExternalLinkIcon,
   CopyIcon,
   CheckIcon,
   WalletIcon,
-  DollarSignIcon,
-  TrendingUpIcon,
-  CalendarIcon,
   AwardIcon
 } from 'lucide-react';
 import { useWallet } from '@solana/wallet-adapter-react';
@@ -52,7 +45,7 @@ export default function ProfilePage() {
   const { connected, publicKey } = useWallet();
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState(mockUserData);
+  const [userData] = useState(mockUserData);
 
   useEffect(() => {
     // Simulate loading user data

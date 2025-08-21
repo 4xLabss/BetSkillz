@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { useSession, signIn, signOut } from 'next-auth/react';
@@ -42,15 +43,12 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <img
+            <Image
               src="/image.png"
               alt="BetSkillz Logo"
               height={60}
               width={160}
               className="h-10 w-auto"
-              onError={(e) => {
-                e.currentTarget.src = '/api/placeholder/32/32';
-              }}
             />
           </Link>
 
