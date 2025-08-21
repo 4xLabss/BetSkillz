@@ -49,12 +49,12 @@ export function useSolanaAuth(): AuthState & AuthActions {
       const domain = window.location.host;
       const statement = 'Sign this message to authenticate with BetSkillz';
       
-      const signinMessage = new SigninMessage({
+      const signinMessage = new SigninMessage(
         domain,
-        publicKey: wallet.publicKey,
-        nonce: csrfToken,
+        wallet.publicKey,
+        csrfToken,
         statement,
-      });
+      );
 
       // Prepare the message to be signed
       const message = signinMessage.prepare();
