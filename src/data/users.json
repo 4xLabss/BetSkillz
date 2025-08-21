@@ -1,0 +1,120 @@
+[
+  {
+    "id": "player-001",
+    "username": "CosmicKing92",
+    "walletAddress": "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgHRs",
+    "avatar": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=128&h=128&fit=crop&crop=face",
+    "level": 45,
+    "experience": 12450,
+    "joinDate": "2024-10-15T10:30:00Z",
+    "lastActive": "2024-12-08T14:30:00Z",
+    "isOnline": true,
+    "stats": {
+      "totalGamesPlayed": 342,
+      "totalScore": 156780,
+      "favoriteGame": "slither-snake",
+      "winRate": 68.5,
+      "averageGameTime": "5m 23s"
+    },
+    "achievements": [
+      {
+        "id": "first-victory",
+        "name": "First Victory",
+        "description": "Win your first game",
+        "icon": "🏆",
+        "rarity": "common",
+        "unlockedAt": "2024-10-15T11:45:00Z"
+      },
+      {
+        "id": "cosmic-master",
+        "name": "Cosmic Master",
+        "description": "Reach top 10 in Cosmic Drift",
+        "icon": "🌟",
+        "rarity": "epic",
+        "unlockedAt": "2024-11-22T16:20:00Z"
+      }
+    ],
+    "socialLinks": {
+      "twitter": "@CosmicKing92",
+      "discord": "CosmicKing#1337"
+    },
+    "preferences": {
+      "theme": "dark",
+      "notifications": true,
+      "soundEffects": true,
+      "musicVolume": 70
+    }
+  },
+  {
+    "id": "player-002",
+    "username": "StarDrifter",
+    "walletAddress": "9yKLpg3DW98f78XJTDqcE6kCifeTqB94UARvKpothBRt",
+    "avatar": "https://images.unsplash.com/photo-1494790108755-2616b9b03e1b?w=128&h=128&fit=crop&crop=face",
+    "level": 38,
+    "experience": 9820,
+    "joinDate": "2024-10-20T14:20:00Z",
+    "lastActive": "2024-12-08T13:45:00Z",
+    "isOnline": false,
+    "stats": {
+      "totalGamesPlayed": 278,
+      "totalScore": 124560,
+      "favoriteGame": "slither-snake",
+      "winRate": 62.3,
+      "averageGameTime": "4m 56s"
+    },
+    "achievements": [
+      {
+        "id": "first-victory",
+        "name": "First Victory",
+        "description": "Win your first game",
+        "icon": "🏆",
+        "rarity": "common",
+        "unlockedAt": "2024-10-20T15:30:00Z"
+      }
+    ],
+    "socialLinks": {
+      "discord": "StarDrifter#9876"
+    },
+    "preferences": {
+      "theme": "light",
+      "notifications": true,
+      "soundEffects": false,
+      "musicVolume": 45
+    }
+  },
+  {
+    "id": "current-user",
+    "username": "GamerPro",
+    "walletAddress": "2xKXtg3CW98d97TXJSDpbD5jBkheTqA83TZRuJosgHRs",
+    "avatar": "https://images.unsplash.com/photo-1527980965255-d3b416303d12?w=128&h=128&fit=crop&crop=face",
+    "level": 25,
+    "experience": 6200,
+    "joinDate": "2024-11-01T09:15:00Z",
+    "lastActive": "2024-12-08T17:00:00Z",
+    "isOnline": true,
+    "stats": {
+      "totalGamesPlayed": 89,
+      "totalScore": 45230,
+      "favoriteGame": "slither-snake",
+      "winRate": 45.2,
+      "averageGameTime": "6m 12s"
+    },
+    "achievements": [
+      {
+        "id": "first-victory",
+        "name": "First Victory",
+        "description": "Win your first game",
+        "icon": "🏆",
+        "rarity": "common",
+        "unlockedAt": "2024-11-01T10:30:00Z"
+      }
+    ],
+    "socialLinks": {},
+    "preferences": {
+      "theme": "dark",
+      "notifications": true,
+      "soundEffects": true,
+      "musicVolume": 80
+    }
+  }
+]
